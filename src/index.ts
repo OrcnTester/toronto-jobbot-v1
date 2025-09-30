@@ -1,17 +1,24 @@
 // src/index.ts
 import "dotenv/config";
 
-if (!process.env.GOOGLE_APPLICATION_CREDENTIALS &&
-    !(process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL && process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY)) {
-  console.error('[fatal] Google creds missing: set GOOGLE_APPLICATIONS_CREDENTIALS or GOOGLE_SERVICE_ACCOUNT_EMAIL + GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY');
+if (
+  !process.env.GOOGLE_APPLICATION_CREDENTIALS &&
+  !(
+    process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL &&
+    process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
+  )
+) {
+  console.error(
+    "[fatal] Google creds missing: set GOOGLE_APPLICATIONS_CREDENTIALS or GOOGLE_SERVICE_ACCOUNT_EMAIL + GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY"
+  );
   process.exit(2);
 }
 if (!(process.env.SHEET_ID || process.env.GOOGLE_SHEETS_ID)) {
-  console.error('[fatal] Sheet ID missing: set SHEET_ID or GOOGLE_SHEETS_ID');
+  console.error("[fatal] Sheet ID missing: set SHEET_ID or GOOGLE_SHEETS_ID");
   process.exit(2);
 }
 
-
+import { appendToNotion } from "./tracker/notion.js";
 import path from "node:path";
 import fs from "node:fs/promises";
 import cron from "node-cron";
@@ -229,6 +236,20 @@ async function processOnce() {
       console.log(
         `[writer] ok range=${res.updatedRange} cells=${res.updatedCells}`
       );
+      // 🔥 Notion sync log
+      const n = await appendToNotion({
+        company: j.company,
+        title: j.title,
+        url: j.url,
+        status: process.env.SEARCH_ONLY === "true" ? "saved" : "applied",
+        followupDue,
+        notes: "synced to Notion",
+      });
+      if ((n as any).ok) {
+        console.log("[writer-notion] ok pageId=" + (n as any).pageId);
+      } else {
+        console.log("[writer-notion] skipped:", (n as any).reason);
+      }
     } catch (err) {
       perItemErrors.push({
         company: j.company,
@@ -273,7 +294,11 @@ async function processOnce() {
   // 7) Mail (opsiyonel)
   if (process.env.MAIL_TO || process.env.MAIL_FROM) {
     try {
-      const to = process.env.MAIL_TO || process.env.FROM_EMAIL || process.env.MAIL_FROM || '';
+      const to =
+        process.env.MAIL_TO ||
+        process.env.FROM_EMAIL ||
+        process.env.MAIL_FROM ||
+        "";
       const mailCount = await sendCoverLettersEmail(to, OUT_DIR);
       console.log(`[mail] sent=${mailCount}`);
     } catch (err) {
