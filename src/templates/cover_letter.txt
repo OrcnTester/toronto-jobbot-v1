@@ -1,0 +1,12 @@
+Dear ${company} Hiring Team,
+
+I’m a Software Engineer focused on building scalable SaaS with ${stackFocus}.
+Recently, I delivered ${projectSnippet}, and I believe those skills map directly to ${title} at ${company}.
+
+Beyond coding, I design systems that reduce manual work and add measurable value.
+I’m open to Toronto-based or remote roles and can contribute immediately.
+
+Best,
+${applicantName}
+LinkedIn: ${linkedin}
+GitHub: ${github}

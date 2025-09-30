@@ -1,0 +1,11 @@
+Add to package.json:
+
+  "scripts": {
+    "export": "node --import tsx ./src/export.ts"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "googleapis": "^131.0.0"
+  }
+
+(If these keys already exist, just merge. Then run: pnpm install)

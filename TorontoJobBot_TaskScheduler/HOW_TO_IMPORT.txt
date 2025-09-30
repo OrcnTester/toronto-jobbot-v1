@@ -1,0 +1,28 @@
+====================
+Toronto JobBot Task Scheduler Kurulumu (16:00 Günlük Otomasyon)
+====================
+
+1) Bu klasördeki dosyalar:
+   - run_jobbot_start.bat
+   - JobBot_Daily_1600.xml
+   - HOW_TO_IMPORT.txt
+
+2) run_jobbot_start.bat dosyasını Notepad ile aç,
+   aşağıdaki satırı kendi bilgisayarındaki yola göre düzenle:
+
+   set PROJECT_DIR=C:\Users\orcny\Downloads\toronto-jobbot-v1
+
+3) PowerShell'i "Yönetici olarak" aç,
+   aşağıdaki komutu çalıştır:
+
+   schtasks /Create /TN "TorontoJobBot_Daily_1600" /XML "C:\Users\orcny\Downloads\jobbot_task_scheduler\JobBot_Daily_1600.xml" /F
+
+4) Task Scheduler uygulamasında görevi göreceksin.
+   "Run" diyerek test edebilirsin.
+
+Loglar:
+  C:\Users\orcny\Downloads\toronto-jobbot-v1\logs\run_YYYY-MM-DD_HH-MM-SS.log
+
+Notlar:
+- Bilgisayar kapalıyken görev kaçarsa, açıldığında ilk fırsatta çalıştırır.
+- İstersen XML'deki <StartBoundary> saatini Notepad ile düzenleyip 15:59 gibi farklı bir saate çekebilirsin.
