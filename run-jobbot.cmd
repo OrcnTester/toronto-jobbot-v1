@@ -2,8 +2,8 @@
 setlocal EnableExtensions EnableDelayedExpansion
 
 REM === ENV sabitleri ===
-set "GOOGLE_APPLICATION_CREDENTIALS=C:\toronto-jobbot-v1\secrets\svc.json"
-set "SHEET_ID=1Sp_gL6yR5vRKOtVlhuJ7KiRKRXLHTYM5OCXJIf8z-Js"
+set "GOOGLE_APPLICATION_CREDENTIALS=C:********************\svc.json"
+set "SHEET_ID=**************************************"
 set "SHEET_TAB=Jobs"
 set "APPLICANT_NAME=Orçun Yörük"
 set "LINKEDIN_URL=https://www.linkedin.com/in/orcun-yoruk-355b52147"
@@ -14,7 +14,7 @@ REM === MAIL ENV ===
 set "MAIL_FROM=orcnyoruk@gmail.com"
 set "MAIL_TO=orcnyoruk@gmail.com"
 set "MAIL_BCC=orcnyoruk@gmail.com"
-set "MAIL_PASS=ujzg aelt enak wlqi"
+set "MAIL_PASS=-********************"
 
 
 REM === Proje kökü ===
